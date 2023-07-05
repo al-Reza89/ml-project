@@ -17,3 +17,16 @@ class BookspiderSpider(scrapy.Spider):
                 'url' : book.css('h3 a').attrib['href'],
 
             }
+
+        next_page=response.css('li.next a ::attr(href)').get()
+
+        if next_page is not None:
+            if 'catalogue/' in next_page:
+                next_page_url='http://books.toscrape.com/'+next_page
+                
+            else:      
+                next_page_url='http://books.toscrape.com/catalogue/'+next_page  
+
+        #  response.follow kore next page e jaite bolbo callba hisabe abar ei function pass kore dibo recurrsive er moto untill no more pages
+        yield response.follow(next_page_url,callback=self.parse)
+  
