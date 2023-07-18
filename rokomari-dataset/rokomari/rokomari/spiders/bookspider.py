@@ -82,6 +82,11 @@ class BookspiderSpider(scrapy.Spider):
         except (AttributeError,ValueError):
             sellPrice=0
 
+        try:
+            rating=float(response.css('.review-wrapper__rating-summary h3::text').get())
+        except (AttributeError,ValueError):
+            rating=0.0
+
 
         yield {
             "url": response.url,
@@ -93,7 +98,7 @@ class BookspiderSpider(scrapy.Spider):
             "country": table_rows[5].css('td::text').getall()[1],
             "language" :table_rows[6].css('td::text').getall()[1],
             "category" : response.css(".details-book-info__content-category a::text").get(),
-            "rating":"",
+            "rating": rating,
             "numberOfRating": numberOfRating,
             "numberOfReview" : numberOfReview,
             "orginalPrice" :  orginalPrice,
