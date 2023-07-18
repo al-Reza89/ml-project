@@ -88,6 +88,13 @@ class BookspiderSpider(scrapy.Spider):
             rating=0.0
 
 
+        try:
+            authorDescription=response.css('.author-description::text').get()
+        except (AttributeError,ValueError):
+            authorDescription=""
+        
+
+
         yield {
             "url": response.url,
             "title": table_rows[0].css('td::text').getall()[1],
@@ -104,6 +111,7 @@ class BookspiderSpider(scrapy.Spider):
             "orginalPrice" :  orginalPrice,
             "sellPrice" :sellPrice,
             "summery": summery,
+            "authorDescription": authorDescription,
             "imageUrl" :response.css('.look-inside::attr(src)').get(),
 
         }
