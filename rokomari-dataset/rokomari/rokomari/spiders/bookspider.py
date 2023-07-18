@@ -68,7 +68,7 @@ class BookspiderSpider(scrapy.Spider):
 
         
         try:
-            summery=response.css('.tab-content .details-book-additional-info__content-summery .summary-description ::text').get()
+            summery=response.css('.tab-content .details-book-additional-info__content-summery .summary-description ::text').getall()
         except (AttributeError,ValueError):
             summery=""
 
@@ -98,7 +98,7 @@ class BookspiderSpider(scrapy.Spider):
         yield {
             "url": response.url,
             "title": table_rows[0].css('td::text').getall()[1],
-            "author": table_rows[1].css('td a::text').get(),
+            "author": table_rows[1].css('td a::text').getall(),
             "publisher": table_rows[2].css('td  a::text').get(),
             "isbn": table_rows[3].css('td::text').getall()[1],
             "page" : table_rows[4].css('td::text').getall()[1],
