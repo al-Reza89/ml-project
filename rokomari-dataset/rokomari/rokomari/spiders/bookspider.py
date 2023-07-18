@@ -21,13 +21,13 @@ class BookspiderSpider(scrapy.Spider):
         selectors = response.css('a')
         next_link = selectors.css('a:contains("next")')
         nextPageAuthorList = next_link.css('::attr(href)').get()
-        print(nextPageAuthorList)
+        # print(nextPageAuthorList)
 
 
         if nextPageAuthorList is not None:
             nextPageAuthorUrl='http://rokomari.com'+nextPageAuthorList
-            print('next page url author list --------------------->')
-            print(nextPageAuthorUrl)
+            # print('next page url author list --------------------->')
+            # print(nextPageAuthorUrl)
             yield response.follow(nextPageAuthorUrl,callback=self.parse)
 
 
@@ -39,7 +39,7 @@ class BookspiderSpider(scrapy.Spider):
         for allbook in allbooks:
             singleBookUrl=allbook.css('a').attrib['href']
             singleBookRedirectUrl='https://www.rokomari.com/'+singleBookUrl
-            print(singleBookUrl)
+            # print(singleBookUrl)
             yield response.follow(singleBookRedirectUrl,callback=self.collectData)
 
 
